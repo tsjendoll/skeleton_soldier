@@ -5,33 +5,34 @@ import os
 parent_dir = 'D:\\Skeleton Warrior'
 
 def get_image_list(link):
-        url = link.a['href']
-        r = requests.get(url=url,headers=headers)
+      url = link.a['href']
+      r = requests.get(url=url,headers=headers)
 
-        soup = BeautifulSoup(r.content, features="html.parser")
+      soup = BeautifulSoup(r.content, features="html.parser")
 
-        section = soup.find('div', attrs={'class':'entry-content'})
+      section = soup.find('div', attrs={'class':'entry-content'})
 
 
-        images = section.findAll('div', attrs={'class':'separator'})
+      images = section.findAll('img', attrs={'decoding':'async'})
 
-        i=1
-
-        split_url = images[0].img['src'].split('/')
-        ext = split_url[-1]
-        ext = ext.split('.')[1]
-        print(ext)
-        for part in split_url:
-                if 'chapter' in part.lower():
-                    directory = part.title()
-                    path = os.path.join(parent_dir,directory)
-                    os.mkdir(path)
-                    os.chdir(path)
-                    break
-                    
-        for image in images:
+      i=1
+      split_url = images[0]['src'].split('/')
+      ext = split_url[-1]
+      ext = ext.split('.')[1]
+      for part in split_url:
+            if 'chapter' in part.lower():
+                  try:
+                        directory = part.title()
+                        path = os.path.join(parent_dir,directory)
+                        os.mkdir(path)
+                        os.chdir(path)
+                        break
+                  except:
+                        pass
+   
+      for image in images:
             filename = f'{i}.{ext}' 
-            img = image.img['src']
+            img = image['src']
             print (img)
             flag = requests.get(img, headers=headers)
             if flag.status_code != 200:
@@ -50,12 +51,3 @@ links = section.findAll('li')
 i = len(links)
 for link in links:
      get_image_list(link)
-   
-
-
-
-
-
-
-
-
