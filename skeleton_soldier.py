@@ -1,8 +1,23 @@
+"""_summary_
+This script scrapes a website for all 
+Skeleton Soldier Comics 
+and saves them in a folder.
+Make sure you havve BeautifulSoup installed:
+
+      pip install beautifulsoup4
+
+You must create the initial directory 
+where you want the comics stored and 
+make sure the parent_dir matches the
+location of the folder.
+
+Run the script and enjoy the comics.
+"""
 import requests
 from bs4 import BeautifulSoup
 import os
 
-parent_dir = 'D:\\Skeleton Warrior'
+parent_dir = 'D:\\Skeleton Warrior'  #This is the folder you created.  
 
 def get_image_list(link):
       url = link.a['href']
